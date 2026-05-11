@@ -1,15 +1,50 @@
 {
   "name": "ux-laws-reviewer",
-  "version": "1.0.0",
-  "description": "A Claude Code skill for reviewing UIs against UX Laws",
+  "version": "1.1.0",
+  "description": "A Claude Code skill for reviewing UIs against established psychological principles and UX Laws — Hick's Law, Fitts's Law, Cognitive Load, Gestalt Principles, and more.",
   "bin": {
-    "install-ux-laws-reviewer": "install.js"
+    "ux-laws-reviewer": "install.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node install.js --help"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "claude-code",
+    "claude",
+    "skill",
+    "ux",
+    "ui",
+    "user-experience",
+    "ux-laws",
+    "ux-review",
+    "ux-audit",
+    "design-review",
+    "hick-law",
+    "fitts-law",
+    "gestalt",
+    "cognitive-load",
+    "accessibility",
+    "frontend"
+  ],
+  "author": "Zendevve",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zendevve/ux-laws-reviewer.git"
+  },
+  "homepage": "https://github.com/Zendevve/ux-laws-reviewer#readme",
+  "bugs": {
+    "url": "https://github.com/Zendevve/ux-laws-reviewer/issues"
+  },
+  "files": [
+    "install.js",
+    "SKILL.md",
+    "references/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
