@@ -1,6 +1,6 @@
 {
   "name": "ux-laws-reviewer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Claude Code skill for reviewing UIs against established psychological principles and UX Laws — Hick's Law, Fitts's Law, Cognitive Load, Gestalt Principles, and more.",
   "bin": {
     "ux-laws-reviewer": "install.js"
