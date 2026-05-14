@@ -15,6 +15,7 @@ Users often perceive aesthetically pleasing design as design that's more usable.
   * ❌ Inconsistent visual quality across pages (polished landing page, ugly settings page).
   * ❌ Functional elements that look broken or unfinished (unstyled buttons, default browser inputs).
   * ✅ Consistent visual language across all states (loading, empty, error, success).
+* **WCAG Cross-ref:** 1.4.3 (Contrast), 1.4.11 (Non-Text Contrast) — visual polish must not sacrifice perceivability.
 
 ---
 
@@ -47,6 +48,7 @@ Breaking individual pieces of information into groups to aid processing and memo
   * ❌ Forms with 10+ fields in a single unbroken column.
   * ✅ Card-based grouping of related data.
   * ✅ Step indicators in multi-page forms.
+* **WCAG Cross-ref:** 1.3.1 (Info and Relationships) — chunk boundaries must be programmatic (headings, fieldsets), not just visual.
 
 ---
 
@@ -96,6 +98,7 @@ Productivity soars when a computer and its users interact at a pace (<400ms) tha
   * ❌ Search with no debounced instant results or loading shimmer.
   * ✅ Skeleton loaders matching layout dimensions.
   * ✅ Optimistic UI updates (e.g., like button toggles immediately).
+* **WCAG Cross-ref:** 4.1.3 (Status Messages) — loading/completion states must be announced to assistive technology via `aria-live` or `role="status"`.
 
 ---
 
@@ -114,6 +117,7 @@ The time to acquire a target is a function of the distance to and size of the ta
   * ❌ Text-only links without padding expansion (`padding: 8px` on anchors).
   * ✅ Primary CTAs are the largest interactive elements on screen.
   * ✅ "Infinite edge" targets (elements at screen edges on desktop).
+* **WCAG Cross-ref:** 2.5.8 (Target Size — NEW in 2.2) — minimum 24×24px for all interactive targets, 44×44px recommended.
 
 ---
 
@@ -178,6 +182,7 @@ Users spend most of their time on *other* sites. They prefer your site to work t
   * ❌ Custom scrollbar behavior that overrides native scroll.
   * ❌ Non-standard form patterns (e.g., submit button on the left).
   * ✅ Standard patterns: logo top-left links to home, search in header, etc.
+* **WCAG Cross-ref:** 3.2.3 (Consistent Navigation), 3.2.4 (Consistent Identification).
 
 ---
 
@@ -334,6 +339,7 @@ Be liberal in what you accept, and conservative in what you send.
   * ❌ Date inputs requiring a specific format without a picker.
   * ❌ Search that fails on typos instead of showing "did you mean…?"
   * ✅ Flexible input parsing (accepts "1/2/25", "01-02-2025", "Jan 2 2025").
+* **WCAG Cross-ref:** 3.3.7 (Redundant Entry — NEW in 2.2), 3.3.1 (Error Identification).
 
 ---
 
@@ -405,6 +411,7 @@ When multiple similar objects are present, the one that differs from the rest is
   * ❌ Everything "highlighted" — excessive bold, color, or size variation.
   * ✅ Single, prominent primary action per screen.
   * ✅ Multi-channel distinction (color + icon + size + weight).
+* **WCAG Cross-ref:** 1.4.1 (Use of Color) — distinction must never rely on color alone. ~8% of males have color vision deficiency.
 
 ---
 
@@ -467,3 +474,4 @@ Every user action should produce a visible, immediate, and relevant response fro
   * ✅ Hover states on all interactive elements.
   * ✅ Toast notifications for background operations.
   * ✅ Inline validation on form fields.
+* **WCAG Cross-ref:** 2.4.7 (Focus Visible), 2.4.11 (Focus Appearance — NEW in 2.2), 4.1.3 (Status Messages).

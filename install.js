@@ -9,14 +9,19 @@ const VERSION = require('./package.json').version;
 const SOURCE_DIR = __dirname;
 
 const TARGETS = [
-  { label: 'Claude Code', base: '.claude' },
-  { label: 'Agents (compatible)', base: '.agents' },
+  { label: 'Claude Code', base: '.claude', sub: 'skills' },
+  { label: 'Gemini CLI', base: '.gemini', sub: 'skills' },
+  { label: 'Cursor', base: '.cursor', sub: 'skills' },
+  { label: 'Windsurf', base: '.windsurf', sub: 'skills' },
+  { label: 'Compatible', base: '.agents', sub: 'skills' },
 ];
 
 const FILES_TO_COPY = [
   'SKILL.md',
   path.join('references', 'laws.md'),
   path.join('references', 'scoring.md'),
+  path.join('references', 'accessibility.md'),
+  path.join('references', 'heuristics.md'),
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────
@@ -27,11 +32,13 @@ const GREEN = '\x1b[32m';
 const CYAN = '\x1b[36m';
 const YELLOW = '\x1b[33m';
 const RED = '\x1b[31m';
+const MAGENTA = '\x1b[35m';
 
 function log(msg) { console.log(msg); }
 function success(msg) { log(`${GREEN}${BOLD}  ✓${RESET} ${msg}`); }
 function warn(msg) { log(`${YELLOW}  !${RESET} ${msg}`); }
 function error(msg) { log(`${RED}  ✗${RESET} ${msg}`); }
+function info(msg) { log(`${CYAN}  →${RESET} ${msg}`); }
 
 function printBanner() {
   log('');
@@ -51,14 +58,17 @@ function printHelp() {
   log(`  --version, -v    Show version number`);
   log(`  --force, -f      Overwrite existing installation`);
   log(`  --path <dir>     Install to a custom directory`);
+  log(`  --all            Install to ALL detected agent directories`);
+  log(`  --uninstall      Remove the skill from detected directories`);
   log('');
   log(`${BOLD}What it does:${RESET}`);
   log(`  Installs the ${SKILL_NAME} skill into your agent's skills`);
   log(`  directory so your AI can review UIs against UX laws.`);
   log('');
   log(`${BOLD}Supported agents:${RESET}`);
-  log(`  • Claude Code   ${DIM}(~/.claude/skills/${SKILL_NAME})${RESET}`);
-  log(`  • Compatible    ${DIM}(~/.agents/skills/${SKILL_NAME})${RESET}`);
+  TARGETS.forEach(t => {
+    log(`  • ${t.label.padEnd(16)} ${DIM}(~/${t.base}/${t.sub}/${SKILL_NAME})${RESET}`);
+  });
   log('');
 }
 
@@ -67,29 +77,55 @@ function printVersion() {
 }
 
 // ─── Core Logic ──────────────────────────────────────────────────────
-function resolveTargetDir(customPath) {
-  if (customPath) {
-    return { dir: path.resolve(customPath), label: 'Custom path' };
-  }
 
+function detectAgentDirs() {
   const home = os.homedir();
+  const detected = [];
 
-  // Prefer .claude if it exists; fall back to .agents; default to .claude
   for (const target of TARGETS) {
     const baseDir = path.join(home, target.base);
     if (fs.existsSync(baseDir)) {
-      return {
-        dir: path.join(baseDir, 'skills', SKILL_NAME),
+      detected.push({
+        dir: path.join(baseDir, target.sub, SKILL_NAME),
         label: target.label,
-      };
+      });
     }
   }
 
+  return detected;
+}
+
+function resolveTargetDir(customPath) {
+  if (customPath) {
+    return [{ dir: path.resolve(customPath), label: 'Custom path' }];
+  }
+
+  const detected = detectAgentDirs();
+
+  if (detected.length > 0) {
+    // Return the first detected by default
+    return [detected[0]];
+  }
+
   // Default: create under .claude
-  return {
-    dir: path.join(home, TARGETS[0].base, 'skills', SKILL_NAME),
+  return [{
+    dir: path.join(os.homedir(), TARGETS[0].base, TARGETS[0].sub, SKILL_NAME),
     label: TARGETS[0].label + ' (new)',
-  };
+  }];
+}
+
+function resolveAllTargetDirs() {
+  const detected = detectAgentDirs();
+
+  if (detected.length === 0) {
+    // Default: create under .claude
+    return [{
+      dir: path.join(os.homedir(), TARGETS[0].base, TARGETS[0].sub, SKILL_NAME),
+      label: TARGETS[0].label + ' (new)',
+    }];
+  }
+
+  return detected;
 }
 
 function isAlreadyInstalled(targetDir) {
@@ -119,49 +155,129 @@ function copyFiles(targetDir) {
   return { copied, skipped };
 }
 
+function removeFiles(targetDir) {
+  let removed = 0;
+
+  // Remove individual files
+  for (const relPath of FILES_TO_COPY) {
+    const dest = path.join(targetDir, relPath);
+    if (fs.existsSync(dest)) {
+      fs.unlinkSync(dest);
+      removed++;
+    }
+  }
+
+  // Clean up empty directories (references/, then skill root)
+  const refsDir = path.join(targetDir, 'references');
+  if (fs.existsSync(refsDir)) {
+    try {
+      fs.rmdirSync(refsDir);
+    } catch (_) {
+      // Directory not empty — other files exist, leave it
+    }
+  }
+  if (fs.existsSync(targetDir)) {
+    try {
+      fs.rmdirSync(targetDir);
+    } catch (_) {
+      // Directory not empty — leave it
+    }
+  }
+
+  return removed;
+}
+
+function installToTargets(targets, options) {
+  let totalCopied = 0;
+  let totalSkipped = 0;
+
+  for (const { dir, label } of targets) {
+    log(`${CYAN}  Target:${RESET} ${label}`);
+    log(`${DIM}  ${dir}${RESET}`);
+
+    if (isAlreadyInstalled(dir) && !options.force) {
+      warn(`Already installed. Use --force to overwrite.`);
+      log('');
+      continue;
+    }
+
+    const { copied, skipped } = copyFiles(dir);
+    totalCopied += copied;
+    totalSkipped += skipped;
+
+    if (copied > 0) {
+      success(`Installed ${copied} file(s)`);
+    }
+    if (skipped > 0) {
+      warn(`${skipped} file(s) skipped`);
+    }
+    log('');
+  }
+
+  return { totalCopied, totalSkipped };
+}
+
 function install(options = {}) {
   printBanner();
 
-  const { dir: targetDir, label } = resolveTargetDir(options.customPath);
+  const targets = options.all
+    ? resolveAllTargetDirs()
+    : resolveTargetDir(options.customPath);
 
-  log(`${CYAN}  Target:${RESET} ${label}`);
-  log(`${DIM}  ${targetDir}${RESET}`);
-  log('');
+  if (options.all) {
+    info(`Installing to ${MAGENTA}${BOLD}all${RESET} detected agent directories`);
+    log('');
+  }
 
-  // Check existing installation
-  if (isAlreadyInstalled(targetDir) && !options.force) {
-    warn(`Skill already installed at this location.`);
-    log(`${DIM}  Use --force to overwrite the existing installation.${RESET}`);
+  const { totalCopied } = installToTargets(targets, options);
+
+  if (totalCopied === 0) {
+    warn('No new files were installed.');
+    log(`${DIM}  Use --force to overwrite existing installations.${RESET}`);
     log('');
     process.exit(0);
   }
 
-  // Perform install
-  const { copied, skipped } = copyFiles(targetDir);
-
-  if (copied === 0) {
-    error('No files were copied. Installation failed.');
-    process.exit(1);
-  }
-
-  log('');
-  success(`Installed ${copied} file(s) to ${label}`);
-  if (skipped > 0) {
-    warn(`${skipped} file(s) skipped (not found in package)`);
-  }
-
-  log('');
   log(`${DIM}  Now ask your agent:${RESET}`);
   log(`${BOLD}  "Review this component against UX laws"${RESET}`);
-  log(`${BOLD}  "Audit my pricing page for cognitive load"${RESET}`);
-  log(`${BOLD}  "Score this form's usability"${RESET}`);
+  log(`${BOLD}  "Do a deep accessibility review of my dashboard"${RESET}`);
+  log(`${BOLD}  "Quick audit of this button component"${RESET}`);
+  log('');
+}
+
+function uninstall() {
+  printBanner();
+
+  const detected = detectAgentDirs();
+  const installed = detected.filter(d => isAlreadyInstalled(d.dir));
+
+  if (installed.length === 0) {
+    warn('No installations found to remove.');
+    log('');
+    process.exit(0);
+  }
+
+  let totalRemoved = 0;
+
+  for (const { dir, label } of installed) {
+    log(`${CYAN}  Removing from:${RESET} ${label}`);
+    log(`${DIM}  ${dir}${RESET}`);
+
+    const removed = removeFiles(dir);
+    totalRemoved += removed;
+    success(`Removed ${removed} file(s)`);
+    log('');
+  }
+
+  success(`Uninstalled from ${installed.length} location(s)`);
   log('');
 }
 
 // ─── CLI Argument Parsing ────────────────────────────────────────────
 function main() {
   const args = process.argv.slice(2);
-  const options = { force: false, customPath: null };
+  const options = { force: false, customPath: null, all: false };
+  let doUninstall = false;
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -182,6 +298,14 @@ function main() {
         options.force = true;
         break;
 
+      case '--all':
+        options.all = true;
+        break;
+
+      case '--uninstall':
+        doUninstall = true;
+        break;
+
       case '--path':
         if (!args[i + 1]) {
           error('--path requires a directory argument');
@@ -198,9 +322,13 @@ function main() {
   }
 
   try {
-    install(options);
+    if (doUninstall) {
+      uninstall();
+    } else {
+      install(options);
+    }
   } catch (err) {
-    error(`Installation failed: ${err.message}`);
+    error(`Operation failed: ${err.message}`);
     process.exit(1);
   }
 }

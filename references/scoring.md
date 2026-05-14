@@ -1,6 +1,6 @@
 # UX Scoring Rubric
 
-A quantitative framework for scoring UI designs on a 0–100 scale across five dimensions. Each dimension is scored 0–20, summed for the total UX Score.
+A quantitative framework for scoring UI designs on a 0–100 scale across five dimensions. Each dimension is scored 0–20, summed for the total UX Score. Accessibility is integrated as weighted sub-criteria within each dimension.
 
 ---
 
@@ -32,6 +32,11 @@ Use these severity levels when reporting findings:
 
 **Primary laws:** Hick's Law, Miller's Law, Cognitive Load, Choice Overload, Chunking, Occam's Razor, Progressive Disclosure.
 
+**Accessibility sub-criteria** (integrated into scoring):
+- Text resize to 200% without content loss (WCAG 1.4.4) — violations deduct up to -3
+- Redundant entry prevention (WCAG 3.3.7) — violations deduct up to -2
+- Clear labels and instructions (WCAG 3.3.2) — violations deduct up to -3
+
 ---
 
 ### 2. Motor Efficiency (0–20)
@@ -46,6 +51,12 @@ Use these severity levels when reporting findings:
 | 0–4 | Interface is physically difficult to use. Critical actions are tiny, hidden, or unreachable. |
 
 **Primary laws:** Fitts's Law, Flow.
+
+**Accessibility sub-criteria** (integrated into scoring):
+- Keyboard accessibility for all interactive elements (WCAG 2.1.1) — violations deduct up to -5
+- Target size ≥ 24×24px (WCAG 2.5.8) — violations deduct up to -3
+- Dragging alternatives provided (WCAG 2.5.7) — violations deduct up to -2
+- No keyboard traps (WCAG 2.1.2) — violations deduct up to -5
 
 **Platform thresholds:**
 
@@ -70,6 +81,11 @@ Use these severity levels when reporting findings:
 
 **Primary laws:** Gestalt Principles (Proximity, Common Region, Similarity, Prägnanz, Uniform Connectedness), Von Restorff Effect, Serial Position Effect, F-Pattern/Z-Pattern.
 
+**Accessibility sub-criteria** (integrated into scoring):
+- Color contrast ≥ 4.5:1 for text, ≥ 3:1 for UI components (WCAG 1.4.3, 1.4.11) — violations deduct up to -4
+- Information conveyed by more than color alone (WCAG 1.4.1) — violations deduct up to -3
+- Heading hierarchy (single H1, logical nesting) — violations deduct up to -2
+
 ---
 
 ### 4. Feedback & Responsiveness (0–20)
@@ -85,6 +101,12 @@ Use these severity levels when reporting findings:
 
 **Primary laws:** Doherty Threshold, Flow, Goal-Gradient Effect, Feedback Principle, Peak-End Rule.
 
+**Accessibility sub-criteria** (integrated into scoring):
+- Visible focus indicators on all interactive elements (WCAG 2.4.7) — violations deduct up to -4
+- Focus appearance ≥ 2px, ≥ 3:1 contrast (WCAG 2.4.11) — violations deduct up to -2
+- Status messages programmatically exposed (WCAG 4.1.3) — violations deduct up to -2
+- Error messages in text, not just color (WCAG 3.3.1) — violations deduct up to -3
+
 ---
 
 ### 5. Consistency & Familiarity (0–20)
@@ -99,6 +121,11 @@ Use these severity levels when reporting findings:
 | 0–4 | Fundamentally breaks user expectations. Nothing works the way users expect. |
 
 **Primary laws:** Jakob's Law, Mental Model, Postel's Law, Paradox of the Active User.
+
+**Accessibility sub-criteria** (integrated into scoring):
+- Custom components expose correct ARIA roles and states (WCAG 4.1.2) — violations deduct up to -4
+- Consistent help mechanism placement (WCAG 3.2.6) — violations deduct up to -1
+- Consistent navigation across pages (WCAG 3.2.3) — violations deduct up to -2
 
 ---
 
@@ -119,7 +146,33 @@ Use these severity levels when reporting findings:
 
 1. Start each dimension at **15/20** (the "reasonable default").
 2. For each **violation** found, subtract points per the severity matrix.
-3. For exceptional applications of UX laws, keep at 15 or bump to 16–17.
-4. Reserve 18–20 for genuinely outstanding implementation in that dimension.
-5. Sum all five dimensions for the total score.
-6. Round to the nearest whole number.
+3. For each **accessibility violation** found, subtract per the sub-criteria deductions listed under each dimension.
+4. For exceptional applications of UX laws, keep at 15 or bump to 16–17.
+5. Reserve 18–20 for genuinely outstanding implementation in that dimension.
+6. Sum all five dimensions for the total score.
+7. Round to the nearest whole number.
+
+> **Scoring conflict rule:** If a single issue violates both a UX law and an accessibility criterion, apply only the **larger** deduction (do not double-count). For example, a 12px touch target violates both Fitts's Law (-4) and WCAG 2.5.8 Target Size (-3) — apply -4, not -7.
+
+---
+
+## Calibration Anchors
+
+These real-world benchmarks help calibrate your scoring. Use them as reference points, not rigid assignments.
+
+| Score Range | Grade | Desktop Examples | Mobile Examples |
+|---|---|---|---|
+| 90–100 | A+ | Stripe Dashboard, Linear, Vercel | Apple Health, Revolut, Arc Browser |
+| 80–89 | A | GitHub, Notion, Figma | Spotify, Duolingo, Airbnb |
+| 70–79 | B | Slack, GitLab, Asana | Instagram, Google Maps |
+| 60–69 | C | Jira, Salesforce Classic, Confluence | Facebook Marketplace, Yelp |
+| 50–59 | D | Legacy CRMs, Jenkins, phpMyAdmin | Early-stage startup MVPs |
+| 0–49 | F | Government portals, unrestyled WordPress admin | Desktop-only sites on mobile, PDF forms |
+
+### How to Use Anchors
+
+When scoring, mentally ask: *"Is this UI better or worse than [anchor example] in this dimension?"*
+
+- If you score a SaaS dashboard higher than Linear's, justify why.
+- If you score a checkout flow lower than Stripe's, justify the gap.
+- These anchors exist to prevent score inflation (everything getting 75+) and score deflation (everything getting 50-).

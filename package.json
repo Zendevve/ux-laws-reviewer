@@ -1,7 +1,7 @@
 {
   "name": "ux-laws-reviewer",
-  "version": "1.1.1",
-  "description": "A Claude Code skill for reviewing UIs against established psychological principles and UX Laws — Hick's Law, Fitts's Law, Cognitive Load, Gestalt Principles, and more.",
+  "version": "2.0.0",
+  "description": "An AI agent skill for reviewing UIs against 25+ psychological UX laws, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics — with quantitative 0-100 scoring.",
   "bin": {
     "ux-laws-reviewer": "install.js"
   },
@@ -11,6 +11,10 @@
   "keywords": [
     "claude-code",
     "claude",
+    "gemini",
+    "cursor",
+    "windsurf",
+    "ai-agent",
     "skill",
     "ux",
     "ui",
@@ -19,11 +23,16 @@
     "ux-review",
     "ux-audit",
     "design-review",
+    "heuristic-evaluation",
+    "accessibility",
+    "wcag",
+    "wcag-2.2",
+    "a11y",
     "hick-law",
     "fitts-law",
     "gestalt",
     "cognitive-load",
-    "accessibility",
+    "nielsen-heuristics",
     "frontend"
   ],
   "author": "Zendevve",
