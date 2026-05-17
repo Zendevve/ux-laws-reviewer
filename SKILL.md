@@ -1,7 +1,7 @@
 ---
 name: ux-laws-reviewer
 description: Use this skill whenever the user asks you to review, critique, audit, score, or improve a UI, frontend component, layout, or design mockup. Also trigger if they ask about UX best practices, user experience, cognitive load, accessibility, or whether a design is user-friendly. This skill provides a rigorous framework for evaluating UI code and designs against 25+ established psychological principles, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics, with a quantitative scoring rubric and platform-aware guidance.
-license: ISC
+license: AGPL-3.0
 metadata:
   author: Zendevve
   version: "2.1.0"
