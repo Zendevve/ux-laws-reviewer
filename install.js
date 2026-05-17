@@ -22,6 +22,9 @@ const FILES_TO_COPY = [
   path.join('references', 'scoring.md'),
   path.join('references', 'accessibility.md'),
   path.join('references', 'heuristics.md'),
+  path.join('references', 'examples.md'),
+  path.join('references', 'components.md'),
+  path.join('references', 'frameworks.md'),
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────

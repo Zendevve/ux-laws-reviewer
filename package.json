@@ -1,6 +1,6 @@
 {
   "name": "ux-laws-reviewer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "An AI agent skill for reviewing UIs against 25+ psychological UX laws, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics — with quantitative 0-100 scoring.",
   "bin": {
     "ux-laws-reviewer": "install.js"
@@ -50,6 +50,7 @@
     "install.js",
     "SKILL.md",
     "references/",
+    "evals/",
     "README.md",
     "LICENSE"
   ],

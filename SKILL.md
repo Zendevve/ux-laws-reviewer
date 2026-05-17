@@ -1,6 +1,10 @@
 ---
 name: ux-laws-reviewer
 description: Use this skill whenever the user asks you to review, critique, audit, score, or improve a UI, frontend component, layout, or design mockup. Also trigger if they ask about UX best practices, user experience, cognitive load, accessibility, or whether a design is user-friendly. This skill provides a rigorous framework for evaluating UI code and designs against 25+ established psychological principles, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics, with a quantitative scoring rubric and platform-aware guidance.
+license: ISC
+metadata:
+  author: Zendevve
+  version: "2.1.0"
 ---
 
 # UX Laws Reviewer
@@ -15,6 +19,9 @@ Before any review, read these files from this skill's directory:
 - `references/laws.md` — Definitions, takeaways, and detection patterns for 25+ UX laws.
 - `references/scoring.md` — The quantitative scoring rubric (0–100 scale), severity matrix, and calibration anchors.
 - `references/accessibility.md` — WCAG 2.2 success criteria mapped to UX laws and scoring dimensions.
+- `references/examples.md` — Annotated example reviews calibrating output quality and format.
+- `references/components.md` — Priority-ranked checklists per UI type (forms, dashboards, checkout, etc.).
+- `references/frameworks.md` — Framework-specific anti-patterns (React, Vue, Svelte, CSS). Load only when reviewing framework code.
 
 ### Step 2: Determine Review Mode
 
@@ -22,9 +29,9 @@ Auto-detect the appropriate review mode based on the user's input. The user can 
 
 | Mode | Auto-Trigger | References Loaded | Output Scope |
 |------|-------------|-------------------|-------------|
-| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `laws.md` (top 8 laws only), `scoring.md`, `accessibility.md` (⚡ items only) | Compact: score + top 3 findings + 2 quick wins |
-| **Standard** | Full page, screen, or multi-component layout | `laws.md`, `scoring.md`, `accessibility.md` | Full output: all sections |
-| **Deep** | Explicit request, full design system audit, or user says "accessibility review" / "heuristic evaluation" | All references including `references/heuristics.md` (Nielsen's 10 Heuristics) | Full output + heuristic summary table + detailed accessibility report |
+| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `laws.md` (top 8 laws only), `scoring.md`, `accessibility.md` (⚡ items only), `examples.md`, `components.md` | Compact: score + top 3 findings + 2 quick wins |
+| **Standard** | Full page, screen, or multi-component layout | `laws.md`, `scoring.md`, `accessibility.md`, `examples.md`, `components.md`, `frameworks.md` (if applicable) | Full output: all sections |
+| **Deep** | Explicit request, full design system audit, or user says "accessibility review" / "heuristic evaluation" | All references including `heuristics.md`, `frameworks.md` | Full output + heuristic summary table + detailed accessibility report |
 
 **Quick mode prioritizes these 8 laws** (most impactful for isolated components):
 1. Fitts's Law
@@ -202,6 +209,15 @@ If the user accepts:
    | **Total**               | **62** | **78**| **+16** |
    ```
 4. List any remaining issues not yet addressed.
+
+---
+
+## Gotchas
+
+- **Fitts's Law thresholds differ by platform:** A 32px target is acceptable on desktop for dense data tables, but a critical violation on mobile (WCAG 2.2 requires 24px absolute minimum, Apple/Google recommend 44-48px). Check platform context before penalizing target sizes.
+- **Do not double count deductions:** If low contrast text violates both the *Aesthetic and Minimalist Design* heuristic and WCAG 1.4.3 (Contrast Minimum), apply only the larger scoring deduction.
+- **Hallucinated WCAG criteria:** Only cite WCAG criteria that actually exist in the 2.2 spec. Do not invent criteria like "WCAG 4.1.5 Keyboard Focus". Always refer to `references/accessibility.md` for accurate criteria numbers.
+- **Assuming visual layout from raw code:** When reviewing raw code without full CSS context, explicitly state your assumptions about the final rendered layout before evaluating spatial principles like the Law of Proximity or Common Region.
 
 ---
 

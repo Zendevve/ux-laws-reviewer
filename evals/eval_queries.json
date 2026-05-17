@@ -1,0 +1,11 @@
+[
+  { "query": "Can you review this login form component for any usability issues?", "should_trigger": true },
+  { "query": "Is this checkout design user-friendly? It has 15 fields on one page.", "should_trigger": true },
+  { "query": "Please do a heuristic evaluation of my dashboard wireframes.", "should_trigger": true },
+  { "query": "Does this text color have enough contrast against the background?", "should_trigger": true },
+  { "query": "What's the best way to reduce cognitive load on a complex settings page?", "should_trigger": true },
+  { "query": "Write a python script to parse a CSV file.", "should_trigger": false },
+  { "query": "How do I setup a React Router with protected routes?", "should_trigger": false },
+  { "query": "Translate this paragraph into French.", "should_trigger": false },
+  { "query": "Debug this null pointer exception in my Java backend.", "should_trigger": false }
+]

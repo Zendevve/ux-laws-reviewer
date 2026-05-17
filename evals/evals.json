@@ -1,0 +1,32 @@
+{
+  "skill_name": "ux-laws-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you review this login form code? Please do a deep review.",
+      "expected_output": "A deep UX audit including UX Score out of 100, identified violations and positive findings mapped to UX laws and WCAG criteria, Nielsen Heuristic Summary, and specific actionable improvements.",
+      "files": [
+        "evals/files/bad-login.jsx"
+      ],
+      "assertions": [
+        "The output includes a UX Score out of 100",
+        "The output contains a Nielsen Heuristic Summary table",
+        "The output tags at least one WCAG criterion (e.g. WCAG 1.4.3 or 2.1.1)",
+        "The output cites Fitts's Law or Law of Proximity regarding the button or layout",
+        "The output provides an actionable code fix for the identified issues"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Quick audit of a button: `<button style='padding: 2px; color: #ccc; background: #fff;' onClick={() => submit()}>Go</button>`",
+      "expected_output": "A concise quick UX audit identifying the small touch target (Fitts's Law) and poor contrast (WCAG 1.4.3) along with quick wins.",
+      "files": [],
+      "assertions": [
+        "The output indicates Quick mode",
+        "The output mentions Fitts's Law or WCAG 2.5.8 regarding the small touch target",
+        "The output mentions WCAG 1.4.3 or Color Contrast regarding the #ccc on #fff",
+        "The output provides quick wins"
+      ]
+    }
+  ]
+}
