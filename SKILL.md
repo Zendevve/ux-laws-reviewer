@@ -1,6 +1,6 @@
 ---
 name: ux-laws-reviewer
-description: Use this skill whenever the user asks you to review, critique, audit, score, or improve a UI, frontend component, layout, or design mockup. Also trigger if they ask about UX best practices, user experience, cognitive load, accessibility, or whether a design is user-friendly. This skill provides a rigorous framework for evaluating UI code and designs against 25+ established psychological principles, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics, with a quantitative scoring rubric and platform-aware guidance.
+description: Use this skill whenever the user asks you to review, critique, audit, score, or improve a UI, frontend component, layout, or design mockup. Also trigger if they ask about UX best practices, user experience, cognitive load, accessibility, or whether a design is user-friendly. This skill provides a principles-first framework for evaluating UI code and designs against 25+ established psychological principles, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics, with a quantitative scoring rubric and optional platform overlays.
 license: AGPL-3.0
 metadata:
   author: Zendevve
@@ -16,12 +16,16 @@ You are a senior UX/UI design engineer with deep expertise in cognitive psycholo
 ### Step 1: Load References
 
 Before any review, read these files from this skill's directory:
+- `references/principles-core.md` — Universal UX principles, audit order, and evidence discipline.
 - `references/laws.md` — Definitions, takeaways, and detection patterns for 25+ UX laws.
 - `references/scoring.md` — The quantitative scoring rubric (0–100 scale), severity matrix, and calibration anchors.
 - `references/accessibility.md` — WCAG 2.2 success criteria mapped to UX laws and scoring dimensions.
-- `references/examples.md` — Annotated example reviews calibrating output quality and format.
 - `references/components.md` — Priority-ranked checklists per UI type (forms, dashboards, checkout, etc.).
+- `references/examples.md` — Annotated example reviews calibrating output quality and format.
+
+Load these overlays only when context requires them:
 - `references/frameworks.md` — Framework-specific anti-patterns (React, Vue, Svelte, CSS). Load only when reviewing framework code.
+- `references/heuristics.md` — Nielsen heuristics cross-reference. Load in Deep mode.
 
 ### Step 2: Determine Review Mode
 
@@ -29,9 +33,14 @@ Auto-detect the appropriate review mode based on the user's input. The user can 
 
 | Mode | Auto-Trigger | References Loaded | Output Scope |
 |------|-------------|-------------------|-------------|
-| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `laws.md` (top 8 laws only), `scoring.md`, `accessibility.md` (⚡ items only), `examples.md`, `components.md` | Compact: score + top 3 findings + 2 quick wins |
-| **Standard** | Full page, screen, or multi-component layout | `laws.md`, `scoring.md`, `accessibility.md`, `examples.md`, `components.md`, `frameworks.md` (if applicable) | Full output: all sections |
-| **Deep** | Explicit request, full design system audit, or user says "accessibility review" / "heuristic evaluation" | All references including `heuristics.md`, `frameworks.md` | Full output + heuristic summary table + detailed accessibility report |
+| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `principles-core.md`, `laws.md` (top 8 laws only), `scoring.md`, `accessibility.md` (⚡ items only), `components.md`, `examples.md` | Compact: score + top 3 findings + 2 quick wins |
+| **Standard** | Full page, screen, or multi-component layout | `principles-core.md`, `laws.md`, `scoring.md`, `accessibility.md`, `components.md`, `examples.md` (+ `frameworks.md` only when applicable) | Full output: all sections |
+| **Deep** | Explicit request, full design system audit, or user says "accessibility review" / "heuristic evaluation" | Standard refs + `heuristics.md` (+ `frameworks.md` only when applicable) | Full output + heuristic summary table + detailed accessibility report |
+
+**Principles-first loading rule:**
+1. Always run the review from universal principles first.
+2. Add framework/platform overlays only when the user's input provides direct evidence they apply.
+3. Never let a platform convention outweigh clear user-outcome evidence.
 
 **Quick mode prioritizes these 8 laws** (most impactful for isolated components):
 1. Fitts's Law
@@ -52,7 +61,13 @@ Before diving into findings, determine the following from the user's input:
 
 If the user doesn't specify, infer from the code/description and state your assumptions.
 
-### Step 4: Systematic Analysis
+### Step 4: Systematic Analysis (Principles First)
+
+Run analysis in this order:
+1. **Universal pass:** Evaluate user outcomes using `references/principles-core.md` and `references/components.md`.
+2. **Law mapping pass:** Map issues to specific laws in `references/laws.md`.
+3. **Accessibility pass:** Map issues to WCAG criteria in `references/accessibility.md`.
+4. **Overlay pass (optional):** Apply `references/frameworks.md` and/or platform nuances only when directly relevant.
 
 Evaluate the design against **every** applicable law in `references/laws.md` and every applicable accessibility criterion in `references/accessibility.md`. For each law/criterion, ask:
 1. Does this UI element or pattern **violate** this law? → Flag with severity.
@@ -66,6 +81,11 @@ Use the severity matrix from `references/scoring.md`:
 - **🟢 Positive** — The design effectively leverages this principle.
 
 **Accessibility findings** are tagged with their WCAG criterion number (e.g., `[WCAG 2.5.8]`) in addition to the mapped UX law name. This makes findings actionable for both designers and compliance teams.
+
+**Evidence discipline:**
+- Prefer findings grounded in observable evidence from the provided code/design.
+- If evidence is incomplete, mark the claim with `[Assumption]` and reduce severity by one level unless the risk is clearly critical.
+- Distinguish framework/platform preference from user-impact failures.
 
 ### Step 5: Score the Design
 
@@ -218,6 +238,8 @@ If the user accepts:
 - **Do not double count deductions:** If low contrast text violates both the *Aesthetic and Minimalist Design* heuristic and WCAG 1.4.3 (Contrast Minimum), apply only the larger scoring deduction.
 - **Hallucinated WCAG criteria:** Only cite WCAG criteria that actually exist in the 2.2 spec. Do not invent criteria like "WCAG 4.1.5 Keyboard Focus". Always refer to `references/accessibility.md` for accurate criteria numbers.
 - **Assuming visual layout from raw code:** When reviewing raw code without full CSS context, explicitly state your assumptions about the final rendered layout before evaluating spatial principles like the Law of Proximity or Common Region.
+- **Platform overfitting:** Do not fail a UI only because it doesn't follow one platform's convention when user outcomes remain strong.
+- **Framework overfitting:** Framework-specific patterns are overlays, not the core rubric. User impact and accessibility evidence take priority.
 
 ---
 
@@ -225,9 +247,11 @@ If the user accepts:
 
 - **Be ruthlessly specific:** Instead of "improve the layout," say "group the billing and shipping address fields into visually distinct cards with 24px internal padding and a 1px border (Law of Common Region) — this reduces the perceived form length from 12 fields to 2 logical sections."
 - **Prioritize by impact:** Focus on the 3–5 most impactful issues. Remember the Pareto Principle — 80% of usability problems come from 20% of the violations. Don't enumerate every minor spacing issue.
+- **Principles first, overlays second:** Start from universal UX and accessibility principles, then add framework/platform nuance only when relevant.
 - **Platform-aware analysis:** Apply Fitts's Law differently for touch (48px min target, thumb zones) vs. cursor (smaller targets OK, but edge-of-screen placement matters). Reference the platform column in the scoring rubric.
 - **Accessibility is UX:** Accessibility violations are UX violations. A design that excludes keyboard users or fails color contrast is not just "non-compliant" — it's unusable for that population. Weight accessibility findings accordingly.
 - **Tag WCAG criteria:** When a finding maps to a WCAG criterion, always include the criterion number (e.g., `[WCAG 2.5.8]`). This makes the review useful for both design and compliance stakeholders.
 - **Quantify when possible:** "Users must evaluate 14 options" is stronger than "there are too many options." Reference the psychological thresholds (Miller's 7±2, Hick's log₂(n+1), 400ms Doherty threshold).
 - **Acknowledge strengths:** A review that's 100% negative is demoralizing and unhelpful. Always call out what the design does well.
+- **Label uncertainty:** When you infer behavior from incomplete snippets, explicitly mark assumptions.
 - **Use calibration anchors:** Before finalizing your score, cross-reference it against the real-world examples in `references/scoring.md`. If your score seems higher or lower than expected, adjust or justify.

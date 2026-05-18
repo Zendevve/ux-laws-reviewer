@@ -17,6 +17,14 @@ Priority-ranked law and accessibility checks for common UI types. When reviewing
 
 If the UI spans multiple types (e.g., a dashboard with an embedded form), merge the Priority 1 lists from both.
 
+Before using any checklist below, confirm the universal baseline:
+
+1. Primary task is obvious within one screen.
+2. Key actions are perceivable and operable with mouse, touch, and keyboard.
+3. Errors and recovery paths are explicit.
+4. Critical meaning is never color-only.
+5. The flow remains usable at larger text sizes.
+
 ---
 
 ## Authentication (Login / Signup / Password Reset)

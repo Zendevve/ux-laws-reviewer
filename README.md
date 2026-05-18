@@ -2,7 +2,7 @@
 
 > **Review any UI against 25+ psychological UX laws, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics — with quantitative scoring.**
 
-A skill for [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview), Gemini CLI, Cursor, Windsurf, and compatible AI agents. Once installed, your agent can critique front-end code, HTML, CSS, React components, and design descriptions using the **Laws of UX** — Hick's Law, Fitts's Law, Cognitive Load, Gestalt Principles, and more — producing a structured audit with a **0–100 UX Score**.
+A skill for [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview), Gemini CLI, Cursor, Windsurf, and compatible AI agents. Once installed, your agent can critique front-end code, HTML, CSS, React components, and design descriptions using a **principles-first** UX framework (Laws of UX + WCAG + heuristics) that stays platform-agnostic by default and applies framework/platform overlays only when relevant.
 
 ---
 
@@ -202,4 +202,4 @@ ux-laws-reviewer/
 
 ## License
 
-ISC
+AGPL-3.0

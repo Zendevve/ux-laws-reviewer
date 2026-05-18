@@ -27,6 +27,54 @@
         "The output mentions WCAG 1.4.3 or Color Contrast regarding the #ccc on #fff",
         "The output provides quick wins"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this checkout flow description: single page with shipping, billing, account creation, promo, newsletter, and survey fields all on one screen; errors show as red border only; submit button is disabled without explanation.",
+      "expected_output": "A principles-first review that identifies cognitive overload, weak error communication, and poor feedback, with WCAG references and prioritized fixes.",
+      "files": [],
+      "assertions": [
+        "The output identifies cognitive overload or Hick's Law concerns",
+        "The output flags color-only error communication (WCAG 1.4.1 or equivalent)",
+        "The output calls out missing feedback for disabled submit state",
+        "The output provides staged remediation steps"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Please audit this admin table UX: 12 columns, row actions appear only on hover, sort state is indicated by color alone, no keyboard shortcuts are documented.",
+      "expected_output": "A review that emphasizes task success, scanability, and operability across input modes, with concrete table-specific fixes.",
+      "files": [],
+      "assertions": [
+        "The output flags scanability issues for dense table layout",
+        "The output flags hover-only actions as an accessibility and operability risk",
+        "The output flags color-only state communication",
+        "The output includes keyboard-operable alternatives"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Evaluate this game HUD: success/failure is communicated mostly by sound cues, important warnings flash rapidly in red, and settings auto-close after 3 seconds.",
+      "expected_output": "A review that covers hearing and cognitive accessibility impacts, including alternatives to audio-only cues and safer motion guidance.",
+      "files": [],
+      "assertions": [
+        "The output flags audio-only communication risk and suggests captions/text/haptics",
+        "The output flags flashing motion risk and suggests reduced-motion alternatives",
+        "The output flags timer-based auto-dismiss behavior",
+        "The output includes actionable mitigation steps"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review this profile form snippet: clear labels, inline helper text, keyboard focus states visible, 48px action buttons, summary + confirm step before delete, and success/error messages announced in text.",
+      "expected_output": "A balanced review that acknowledges strengths and avoids negative-only auditing while still suggesting practical refinements.",
+      "files": [],
+      "assertions": [
+        "The output includes positive findings",
+        "The output still provides at least one improvement opportunity",
+        "The output maps strengths to principles or WCAG where relevant",
+        "The output remains concise and actionable"
+      ]
     }
   ]
 }

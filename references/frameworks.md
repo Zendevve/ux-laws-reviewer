@@ -3,6 +3,8 @@
 UX and accessibility anti-patterns specific to popular frontend frameworks. These supplement the framework-agnostic laws in `laws.md` with patterns that only manifest in JSX, Vue templates, Svelte markup, or framework-specific APIs.
 
 > **When to load:** Load this file when reviewing code written in a specific framework. Skip if reviewing raw HTML/CSS or design mockups.
+>
+> **Principles-first rule:** Run `principles-core.md`, `laws.md`, and `accessibility.md` first. Use this file as an overlay for implementation-specific diagnosis, not as the primary scoring source.
 
 ---
 

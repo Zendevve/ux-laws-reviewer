@@ -2,6 +2,8 @@
 
 A comprehensive reference of psychological principles for evaluating user interfaces. Each law includes a definition, key takeaways, and **detection patterns** — specific UI symptoms that signal a violation or successful application.
 
+> Use this file after `principles-core.md`. Start with user-outcome principles first, then map findings to the most relevant laws here.
+
 ---
 
 ## Aesthetic-Usability Effect

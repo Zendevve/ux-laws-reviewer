@@ -4,6 +4,20 @@ A quantitative framework for scoring UI designs on a 0–100 scale across five d
 
 ---
 
+## Principles-First Scoring Policy
+
+Score user outcomes first, implementation details second.
+
+1. **Outcome over convention:** Penalize based on user friction, not on framework/platform preference alone.
+2. **Evidence-weighted confidence:**
+   - `[Observed]` findings can use full deduction.
+   - `[Inferred]` findings should usually use partial deduction.
+   - `[Assumption]` findings should be conservative and clearly labeled.
+3. **No style-only penalties:** Do not deduct solely because a design differs from a platform norm when usability outcomes are still strong.
+4. **Accessibility remains non-negotiable:** WCAG violations tied to real user impact still take full priority.
+
+---
+
 ## Severity Matrix
 
 Use these severity levels when reporting findings:

@@ -4,8 +4,14 @@
   { "query": "Please do a heuristic evaluation of my dashboard wireframes.", "should_trigger": true },
   { "query": "Does this text color have enough contrast against the background?", "should_trigger": true },
   { "query": "What's the best way to reduce cognitive load on a complex settings page?", "should_trigger": true },
+  { "query": "Audit this UI using core UX principles, not framework preferences.", "should_trigger": true },
+  { "query": "Can you score this table design for keyboard users and screen readers?", "should_trigger": true },
+  { "query": "Review this game HUD for accessibility and motion safety.", "should_trigger": true },
+  { "query": "Evaluate this onboarding flow for decision friction and error recovery.", "should_trigger": true },
   { "query": "Write a python script to parse a CSV file.", "should_trigger": false },
   { "query": "How do I setup a React Router with protected routes?", "should_trigger": false },
   { "query": "Translate this paragraph into French.", "should_trigger": false },
-  { "query": "Debug this null pointer exception in my Java backend.", "should_trigger": false }
+  { "query": "Debug this null pointer exception in my Java backend.", "should_trigger": false },
+  { "query": "Generate a Dockerfile for my Node app.", "should_trigger": false },
+  { "query": "Summarize this legal contract.", "should_trigger": false }
 ]
