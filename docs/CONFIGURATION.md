@@ -37,7 +37,7 @@ SKILL.md frontmatter configures agent behavior:
 ---
 name: ux-laws-reviewer
 description: <trigger description>
-license: ISC
+license: AGPL-3.0
 metadata:
   author: Zendevve
   version: "2.1.0"
@@ -84,7 +84,7 @@ The installer (`install.js`) supports these runtime options:
 The skill auto-configures review mode based on input context. Mode behavior is determined by which reference files are loaded:
 
 ### Quick Mode
-- Loads: `laws.md` (top 8), `scoring.md`, `accessibility.md` (basic), `examples.md`, `components.md`
+- Loads: `laws-quick.md`, `scoring.md`, `accessibility.md` (basic), `examples.md`, `components.md`
 - Triggered by: Single component, ≤50 LOC
 
 ### Standard Mode
@@ -99,9 +99,9 @@ The skill auto-configures review mode based on input context. Mode behavior is d
 
 ### Adding Custom Laws
 
-1. Edit `references/laws.md`
+1. Edit `references/laws-extended.md`
 2. Add law definition with name, description, and detection patterns
-3. Update SKILL.md if the law should be in Quick mode's top 8
+3. Update `laws-quick.md` if the law should be in Quick mode
 
 ### Modifying Scoring
 

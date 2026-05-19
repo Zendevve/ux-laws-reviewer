@@ -2,6 +2,9 @@
 
 Accessibility is not a separate concern from UX — it *is* UX. This reference maps key WCAG 2.2 success criteria to the existing UX laws framework, providing detection patterns for the most impactful accessibility violations in UI code.
 
+*Source: Web Content Accessibility Guidelines (WCAG) 2.2, W3C Recommendation (Last verified: 2024)*
+*URL: https://www.w3.org/TR/WCAG22/*
+
 > **When to load:** This file is loaded in **Standard** and **Deep** review modes. In Quick mode, only the critical items (marked ⚡) are checked.
 
 ---

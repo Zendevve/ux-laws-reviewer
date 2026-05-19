@@ -6,14 +6,14 @@ A skill for [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/cl
 
 ---
 
-## What's New in v2.0.0
+## What's New in v2.1.0
 
-- **WCAG 2.2 Accessibility Integration** — Accessibility is now a first-class concern, not an afterthought. Every finding is tagged with its WCAG criterion number.
+- **Few-shot examples** — Two complete annotated review examples (Quick mode button, Standard mode login form) anchoring output quality.
+- **Component-specific checklists** — Priority-ranked law checklists for 9 UI types.
+- **Framework-aware patterns** — Detection patterns for React/Next.js, Vue, Svelte/SvelteKit, vanilla HTML/JS, and CSS anti-patterns.
+- **WCAG 2.2 Accessibility Integration** — Every finding is tagged with its WCAG criterion number.
 - **Review Modes** — Quick (components), Standard (pages), and Deep (full heuristic evaluation) auto-detected from context.
 - **Nielsen's 10 Heuristics** — Deep mode includes a cross-reference against the industry-standard heuristic evaluation framework.
-- **Iteration Loop** — After the review, the agent offers to fix issues and re-score, showing a before/after comparison.
-- **Scoring Calibration** — Real-world product anchors (Stripe, Linear, Jira) calibrate scores to prevent inflation.
-- **Multi-Agent Installer** — Supports Claude Code, Gemini CLI, Cursor, Windsurf, and generic `.agents/` directories.
 
 ---
 
@@ -126,10 +126,15 @@ In deep review mode, the audit includes a cross-reference against Nielsen's 10 U
 ux-laws-reviewer/
 ├── SKILL.md                    # Agent instructions & review framework
 ├── references/
-│   ├── laws.md                 # 25+ UX law definitions with detection patterns
+│   ├── laws-quick.md           # Core UX laws optimized for fast component reviews
+│   ├── laws-extended.md        # The rest of the 25+ UX laws for full page reviews
 │   ├── scoring.md              # 0-100 scoring rubric, severity matrix, & calibration anchors
 │   ├── accessibility.md        # WCAG 2.2 criteria mapped to UX laws
-│   └── heuristics.md           # Nielsen's 10 heuristics cross-reference (Deep mode)
+│   ├── heuristics.md           # Nielsen's 10 heuristics cross-reference (Deep mode)
+│   ├── components.md           # Component-specific UX checklists
+│   ├── examples.md             # Few-shot output examples
+│   ├── frameworks.md           # Framework-aware patterns
+│   └── principles-core.md      # Core UI/UX design principles
 ├── install.js                  # CLI installer (npx entry point)
 ├── package.json
 └── README.md

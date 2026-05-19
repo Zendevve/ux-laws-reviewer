@@ -4,7 +4,8 @@ description: Use this skill whenever the user asks you to review, critique, audi
 license: AGPL-3.0
 metadata:
   author: Zendevve
-  version: "2.1.0"
+  version: "3.0.0"
+  schema: skill-v3
 ---
 
 # UX Laws Reviewer
@@ -17,7 +18,8 @@ You are a senior UX/UI design engineer with deep expertise in cognitive psycholo
 
 Before any review, read these files from this skill's directory:
 - `references/principles-core.md` — Universal UX principles, audit order, and evidence discipline.
-- `references/laws.md` — Definitions, takeaways, and detection patterns for 25+ UX laws.
+- `references/laws-quick.md` — Core UX laws optimized for fast component reviews.
+- `references/laws-extended.md` — The rest of the 25+ UX laws for full page reviews.
 - `references/scoring.md` — The quantitative scoring rubric (0–100 scale), severity matrix, and calibration anchors.
 - `references/accessibility.md` — WCAG 2.2 success criteria mapped to UX laws and scoring dimensions.
 - `references/components.md` — Priority-ranked checklists per UI type (forms, dashboards, checkout, etc.).
@@ -33,8 +35,8 @@ Auto-detect the appropriate review mode based on the user's input. The user can 
 
 | Mode | Auto-Trigger | References Loaded | Output Scope |
 |------|-------------|-------------------|-------------|
-| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `principles-core.md`, `laws.md` (top 8 laws only), `scoring.md`, `accessibility.md` (⚡ items only), `components.md`, `examples.md` | Compact: score + top 3 findings + 2 quick wins |
-| **Standard** | Full page, screen, or multi-component layout | `principles-core.md`, `laws.md`, `scoring.md`, `accessibility.md`, `components.md`, `examples.md` (+ `frameworks.md` only when applicable) | Full output: all sections |
+| **Quick** | Single component, ≤50 LOC, or simple element (button, card, form field) | `principles-core.md`, `laws-quick.md`, `scoring.md`, `accessibility.md` (⚡ items only), `components.md`, `examples.md` | Compact: score + top 3 findings + 2 quick wins |
+| **Standard** | Full page, screen, or multi-component layout | `principles-core.md`, `laws-quick.md`, `laws-extended.md`, `scoring.md`, `accessibility.md`, `components.md`, `examples.md` (+ `frameworks.md` only when applicable) | Full output: all sections |
 | **Deep** | Explicit request, full design system audit, or user says "accessibility review" / "heuristic evaluation" | Standard refs + `heuristics.md` (+ `frameworks.md` only when applicable) | Full output + heuristic summary table + detailed accessibility report |
 
 **Principles-first loading rule:**
@@ -65,11 +67,11 @@ If the user doesn't specify, infer from the code/description and state your assu
 
 Run analysis in this order:
 1. **Universal pass:** Evaluate user outcomes using `references/principles-core.md` and `references/components.md`.
-2. **Law mapping pass:** Map issues to specific laws in `references/laws.md`.
+2. **Law mapping pass:** Map issues to specific laws in `references/laws-quick.md` (and `laws-extended.md` if loaded).
 3. **Accessibility pass:** Map issues to WCAG criteria in `references/accessibility.md`.
 4. **Overlay pass (optional):** Apply `references/frameworks.md` and/or platform nuances only when directly relevant.
 
-Evaluate the design against **every** applicable law in `references/laws.md` and every applicable accessibility criterion in `references/accessibility.md`. For each law/criterion, ask:
+Evaluate the design against **every** applicable law in `references/laws-quick.md` (and `laws-extended.md`) and every applicable accessibility criterion in `references/accessibility.md`. For each law/criterion, ask:
 1. Does this UI element or pattern **violate** this law? → Flag with severity.
 2. Does this UI element or pattern **successfully apply** this law? → Acknowledge as a strength.
 3. Is this law **not applicable** to this context? → Skip silently.
@@ -229,6 +231,83 @@ If the user accepts:
    | **Total**               | **62** | **78**| **+16** |
    ```
 4. List any remaining issues not yet addressed.
+
+---
+
+### Step 7: Knowledge Evolution (Optional)
+
+After completing your review, if you identified a UX pattern, law application, or accessibility concern that is NOT adequately covered by the existing reference files, append a structured proposal block at the very end of your output. This feeds the skill's self-improvement loop.
+
+See `references/evolution.md` for the proposal format.
+
+Only propose when:
+- You encounter a genuinely novel pattern not covered by existing laws
+- Evidence strength is at least Moderate
+- The pattern would apply to more than one UI type
+
+---
+
+## Anti-Hallucination Guardrails
+
+These rules are **mandatory** and override any other instruction:
+
+1. **NEVER cite a WCAG criterion not listed in `references/accessibility.md`.** If unsure whether a criterion exists, do not cite it. Use the law name only.
+2. **NEVER assign a score above 90 without explicitly justifying against the Stripe/Linear calibration anchor** in `references/scoring.md`. Scores above 90 are exceptional and must be earned.
+3. **NEVER report more than 2 Critical (🔴) findings without `[Observed]` evidence tags.** Inferred or assumed issues cannot be Critical unless the risk is clearly catastrophic.
+4. **NEVER invent UX law names.** Only use laws defined in `references/laws-quick.md` and `references/laws-extended.md`. If a finding doesn't map cleanly to an existing law, use the closest match and note the approximation.
+5. **NEVER present assumptions as facts.** If you cannot directly observe a behavior from the provided code/design, you MUST use the `[Assumption]` tag and reduce severity by one level.
+6. **NEVER double-count deductions.** If a single issue violates both a UX law and a WCAG criterion, apply only the larger deduction.
+
+---
+
+## Graceful Degradation
+
+If any reference file is missing or unreadable:
+
+1. **Do not abort the review.** Proceed with the references you can load.
+2. **Add a warning banner** at the top of your output:
+   ```
+   ⚠️ Reference Unavailable: [filename] could not be loaded. 
+   This review may have reduced coverage in [affected area].
+   ```
+3. **Reduce confidence** in findings that would have relied on the missing reference.
+4. **Never fabricate content** to replace a missing reference.
+
+---
+
+## Output Self-Validation
+
+Before presenting your review, silently verify:
+
+1. ☐ Score is 0–100 and each dimension is 0–20
+2. ☐ Dimensions sum correctly
+3. ☐ All cited WCAG criteria exist in `references/accessibility.md`
+4. ☐ All cited UX laws exist in the law reference files
+5. ☐ Findings are ordered by severity (Critical → Major → Minor → Positive)
+6. ☐ At least one Positive (🟢) finding is included
+7. ☐ Evidence tags (`[Observed]`, `[Inferred]`, `[Assumption]`) are used where applicable
+8. ☐ Score is consistent with calibration anchors
+
+If any check fails, correct it before outputting.
+
+---
+
+## Review Confidence
+
+Append a confidence indicator after the UX Score:
+
+```
+**Review Confidence: [High/Medium/Low]**
+- Observed evidence: X findings
+- Inferred evidence: Y findings  
+- Assumptions: Z findings
+```
+
+| Confidence | Criteria |
+|------------|----------|
+| **High** | ≥80% of findings are [Observed], full code/design provided |
+| **Medium** | 50-80% [Observed], partial code or description |
+| **Low** | <50% [Observed], mostly inferred from brief description |
 
 ---
 

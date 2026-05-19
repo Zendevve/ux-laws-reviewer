@@ -1,10 +1,15 @@
-# Laws of UX Reference
+# Laws of UX Reference (Extended)
 
 A comprehensive reference of psychological principles for evaluating user interfaces. Each law includes a definition, key takeaways, and **detection patterns** — specific UI symptoms that signal a violation or successful application.
 
+*Source: Yablonski, Jon. "Laws of UX: Using Psychology to Design Better Products & Services" (O'Reilly Media) and LawsOfUX.com (Last verified: 2024)*
+*URL: https://lawsofux.com/*
+
 > Use this file after `principles-core.md`. Start with user-outcome principles first, then map findings to the most relevant laws here.
 
+
 ---
+
 
 ## Aesthetic-Usability Effect
 Users often perceive aesthetically pleasing design as design that's more usable.
@@ -19,7 +24,9 @@ Users often perceive aesthetically pleasing design as design that's more usable.
   * ✅ Consistent visual language across all states (loading, empty, error, success).
 * **WCAG Cross-ref:** 1.4.3 (Contrast), 1.4.11 (Non-Text Contrast) — visual polish must not sacrifice perceivability.
 
+
 ---
+
 
 ## Choice Overload (Paradox of Choice)
 The tendency for people to become overwhelmed when presented with a large number of options.
@@ -35,7 +42,9 @@ The tendency for people to become overwhelmed when presented with a large number
   * ✅ Progressive disclosure — showing details on demand.
   * ✅ Default selections or "recommended" badges on primary options.
 
+
 ---
+
 
 ## Chunking
 Breaking individual pieces of information into groups to aid processing and memory.
@@ -52,7 +61,9 @@ Breaking individual pieces of information into groups to aid processing and memo
   * ✅ Step indicators in multi-page forms.
 * **WCAG Cross-ref:** 1.3.1 (Info and Relationships) — chunk boundaries must be programmatic (headings, fieldsets), not just visual.
 
+
 ---
+
 
 ## Cognitive Bias
 Systematic errors in thinking that influence perception and decision-making.
@@ -65,27 +76,9 @@ Systematic errors in thinking that influence perception and decision-making.
   * ✅ Smart defaults that leverage status quo bias ethically.
   * ❌ Manipulative patterns that exploit biases (dark patterns).
 
----
-
-## Cognitive Load
-The total mental effort required to understand and interact with an interface.
-
-* **Types:**
-  * **Intrinsic:** Effort required to absorb new information and track goals.
-  * **Extraneous:** Mental processing that wastes resources without helping understanding (distracting animations, unclear icons, inconsistent layouts).
-  * **Germane:** Productive effort spent building mental models.
-* **Takeaways:**
-  * Reduce extraneous load to prevent users from feeling overwhelmed.
-  * Minimize the number of decisions, visual noise, and context switches per screen.
-  * Use familiar patterns to lower intrinsic load.
-* **Detection Patterns:**
-  * ❌ Multiple competing calls-to-action on a single screen.
-  * ❌ Dense text blocks without visual breaks.
-  * ❌ Icons without labels (forces recall over recognition).
-  * ❌ Modals on top of modals, or nested navigation.
-  * ✅ Progressive disclosure — revealing complexity only when needed.
 
 ---
+
 
 ## Doherty Threshold
 Productivity soars when a computer and its users interact at a pace (<400ms) that ensures neither has to wait on the other.
@@ -102,26 +95,9 @@ Productivity soars when a computer and its users interact at a pace (<400ms) tha
   * ✅ Optimistic UI updates (e.g., like button toggles immediately).
 * **WCAG Cross-ref:** 4.1.3 (Status Messages) — loading/completion states must be announced to assistive technology via `aria-live` or `role="status"`.
 
----
-
-## Fitts's Law
-The time to acquire a target is a function of the distance to and size of the target.
-
-* **Formula:** `T = a + b × log₂(1 + D/W)` where D = distance, W = target width.
-* **Takeaways:**
-  * Touch targets should be large enough for accurate selection (minimum 44×44px for WCAG, 48×48px recommended).
-  * Provide ample spacing between adjacent touch targets (minimum 8px gap).
-  * Place primary actions in easily acquired zones (bottom of mobile screens, corners of desktop screens).
-* **Detection Patterns:**
-  * ❌ Touch targets smaller than 44px on mobile.
-  * ❌ Clickable links/buttons with less than 8px gap between them.
-  * ❌ Critical actions placed far from natural resting positions (e.g., top-left on mobile).
-  * ❌ Text-only links without padding expansion (`padding: 8px` on anchors).
-  * ✅ Primary CTAs are the largest interactive elements on screen.
-  * ✅ "Infinite edge" targets (elements at screen edges on desktop).
-* **WCAG Cross-ref:** 2.5.8 (Target Size — NEW in 2.2) — minimum 24×24px for all interactive targets, 44×44px recommended.
 
 ---
+
 
 ## Flow
 The mental state of full immersion in energized focus and enjoyment.
@@ -136,7 +112,9 @@ The mental state of full immersion in energized focus and enjoyment.
   * ✅ Smooth transitions between steps in a multi-step process.
   * ✅ Auto-save functionality that eliminates fear of data loss.
 
+
 ---
+
 
 ## Goal-Gradient Effect
 The tendency to approach a goal increases with proximity to the goal.
@@ -151,25 +129,9 @@ The tendency to approach a goal increases with proximity to the goal.
   * ✅ Progress bars that start at >0% (artificial endowed progress).
   * ✅ Checklist-style onboarding with completed items checked off.
 
----
-
-## Hick's Law
-The time to make a decision increases with the number and complexity of choices.
-
-* **Formula:** `T = b × log₂(n + 1)` where n = number of equally probable choices.
-* **Takeaways:**
-  * Minimize choices when response times are critical.
-  * Break complex tasks into smaller sequential steps.
-  * Highlight recommended options to reduce effective choice count.
-  * Use progressive onboarding to introduce features gradually.
-* **Detection Patterns:**
-  * ❌ Navigation menus with 8+ uncategorized top-level items.
-  * ❌ Settings pages showing all options simultaneously.
-  * ❌ Action menus with 10+ options without grouping or separators.
-  * ✅ Categorized navigation (3–5 primary groups, sub-items on demand).
-  * ✅ "Recommended" or "Most Popular" badges reducing effective choices.
 
 ---
+
 
 ## Jakob's Law
 Users spend most of their time on *other* sites. They prefer your site to work the same way as all the other sites they already know.
@@ -186,26 +148,20 @@ Users spend most of their time on *other* sites. They prefer your site to work t
   * ✅ Standard patterns: logo top-left links to home, search in header, etc.
 * **WCAG Cross-ref:** 3.2.3 (Consistent Navigation), 3.2.4 (Consistent Identification).
 
+
 ---
+
 
 ## Gestalt Principles of Grouping
 
-### Law of Common Region
+### ### Law of Common Region
 Elements are perceived as grouped if they share an area with a clearly defined boundary.
 
 * **Detection Patterns:**
   * ❌ Related controls (e.g., text formatting toolbar) without a shared container.
   * ✅ Form sections wrapped in bordered cards or background-differentiated panels.
 
-### Law of Proximity
-Objects near each other tend to be grouped together perceptually.
-
-* **Detection Patterns:**
-  * ❌ Form labels equidistant between the field above and below (ambiguous association).
-  * ❌ Button groups with the same spacing as unrelated elements.
-  * ✅ Labels closer to their associated input than to adjacent inputs (ratio ≥ 2:1).
-
-### Law of Prägnanz (Simplicity)
+### ### Law of Prägnanz (Simplicity)
 People perceive complex images in their simplest form because it requires the least cognitive effort.
 
 * **Detection Patterns:**
@@ -213,7 +169,7 @@ People perceive complex images in their simplest form because it requires the le
   * ❌ Charts with excessive decoration (3D effects, heavy gradients).
   * ✅ Clean, minimal iconography with consistent stroke weight.
 
-### Law of Similarity
+### ### Law of Similarity
 Visually similar elements (color, shape, size) are perceived as related.
 
 * **Detection Patterns:**
@@ -221,7 +177,7 @@ Visually similar elements (color, shape, size) are perceived as related.
   * ❌ Disabled elements that look identical to enabled ones.
   * ✅ Consistent button hierarchy: primary (filled), secondary (outlined), tertiary (text).
 
-### Law of Uniform Connectedness
+### ### Law of Uniform Connectedness
 Elements visually connected (via lines, colors, frames) are perceived as more related.
 
 * **Detection Patterns:**
@@ -229,7 +185,9 @@ Elements visually connected (via lines, colors, frames) are perceived as more re
   * ✅ Breadcrumbs with separator characters or chevrons.
   * ✅ Stepper components with connecting lines between steps.
 
+
 ---
+
 
 ## Mental Model
 A compressed representation of how users *think* a system works, based on prior experience.
@@ -242,7 +200,9 @@ A compressed representation of how users *think* a system works, based on prior 
   * ❌ Icons that mean different things in different parts of the app.
   * ❌ Terminology that differs from industry standard (e.g., "Vault" instead of "Archive").
 
+
 ---
+
 
 ## Miller's Law
 The average person can keep 7 ± 2 items in working memory.
@@ -256,7 +216,9 @@ The average person can keep 7 ± 2 items in working memory.
   * ❌ Uncategorized lists exceeding 7 items.
   * ✅ Dashboard metrics grouped into 3–5 logical sections.
 
+
 ---
+
 
 ## Occam's Razor
 Among competing hypotheses, the one with the fewest assumptions should be selected.
@@ -270,7 +232,9 @@ Among competing hypotheses, the one with the fewest assumptions should be select
   * ❌ Redundant actions (two ways to do the same thing, both visible simultaneously).
   * ✅ Clean interfaces where every element earns its screen space.
 
+
 ---
+
 
 ## Paradox of the Active User
 Users never read manuals — they start using software immediately.
@@ -285,7 +249,9 @@ Users never read manuals — they start using software immediately.
   * ✅ Contextual tooltips that appear on first interaction with a feature.
   * ✅ Well-designed empty states that teach through example.
 
+
 ---
+
 
 ## Pareto Principle (80/20 Rule)
 Roughly 80% of effects come from 20% of causes.
@@ -299,7 +265,9 @@ Roughly 80% of effects come from 20% of causes.
   * ❌ Rarely-used actions occupying prime screen real estate.
   * ✅ Primary actions prominent, secondary actions in overflow menus.
 
+
 ---
+
 
 ## Parkinson's Law
 Any task will inflate until all available time is spent.
@@ -312,7 +280,9 @@ Any task will inflate until all available time is spent.
   * ❌ No autocomplete on address, email, or known-value fields.
   * ✅ Pre-filled forms based on user profile or previous entries.
 
+
 ---
+
 
 ## Peak-End Rule
 People judge an experience based on how they felt at its most intense point and at its end, not the average.
@@ -327,7 +297,9 @@ People judge an experience based on how they felt at its most intense point and 
   * ✅ Delightful success states (confetti, thank-you messages, clear next steps).
   * ✅ Graceful error recovery at critical moments.
 
+
 ---
+
 
 ## Postel's Law (Robustness Principle)
 Be liberal in what you accept, and conservative in what you send.
@@ -343,7 +315,9 @@ Be liberal in what you accept, and conservative in what you send.
   * ✅ Flexible input parsing (accepts "1/2/25", "01-02-2025", "Jan 2 2025").
 * **WCAG Cross-ref:** 3.3.7 (Redundant Entry — NEW in 2.2), 3.3.1 (Error Identification).
 
+
 ---
+
 
 ## Progressive Disclosure
 Sequencing information and actions across several screens to reduce cognitive load.
@@ -358,7 +332,9 @@ Sequencing information and actions across several screens to reduce cognitive lo
   * ✅ "Show advanced options" expandable sections.
   * ✅ Contextual toolbars that appear only when relevant content is selected.
 
+
 ---
+
 
 ## Selective Attention
 Focusing attention on a subset of stimuli related to our goals, filtering out the rest.
@@ -372,7 +348,9 @@ Focusing attention on a subset of stimuli related to our goals, filtering out th
   * ❌ Subtle status changes without animation or color transition.
   * ✅ Attention-drawing animations for critical state changes (new notification dot).
 
+
 ---
+
 
 ## Serial Position Effect
 Users best remember the first and last items in a series.
@@ -385,7 +363,9 @@ Users best remember the first and last items in a series.
   * ❌ Primary navigation action buried in the middle of a tab bar.
   * ✅ Most important tabs at the start and end of navigation bars.
 
+
 ---
+
 
 ## Tesler's Law (Conservation of Complexity)
 For any system, there is an irreducible amount of complexity that cannot be removed.
@@ -398,24 +378,9 @@ For any system, there is an irreducible amount of complexity that cannot be remo
   * ❌ Manual configuration that could be automated or defaulted.
   * ✅ Smart defaults that handle common cases automatically.
 
----
-
-## Von Restorff Effect (Isolation Effect)
-When multiple similar objects are present, the one that differs from the rest is most likely to be remembered.
-
-* **Takeaways:**
-  * Make important information or key actions visually distinctive.
-  * Use restraint — if everything is emphasized, nothing stands out.
-  * Don't rely exclusively on color for distinction (accessibility: ~8% of males have color vision deficiency).
-* **Detection Patterns:**
-  * ❌ Primary CTA styled the same as secondary buttons.
-  * ❌ Important alerts using only color differentiation (no icon or border).
-  * ❌ Everything "highlighted" — excessive bold, color, or size variation.
-  * ✅ Single, prominent primary action per screen.
-  * ✅ Multi-channel distinction (color + icon + size + weight).
-* **WCAG Cross-ref:** 1.4.1 (Use of Color) — distinction must never rely on color alone. ~8% of males have color vision deficiency.
 
 ---
+
 
 ## Working Memory
 A cognitive system that temporarily holds and manipulates information needed to complete tasks.
@@ -431,7 +396,9 @@ A cognitive system that temporarily holds and manipulates information needed to 
   * ✅ Persistent summary panels showing accumulated selections.
   * ✅ Visited link styling, recently viewed items.
 
+
 ---
+
 
 ## Zeigarnik Effect
 People remember uncompleted or interrupted tasks better than completed tasks.
@@ -445,7 +412,9 @@ People remember uncompleted or interrupted tasks better than completed tasks.
   * ✅ Profile completeness bars ("Your profile is 60% complete").
   * ✅ "Continue where you left off" sections.
 
+
 ---
+
 
 ## F-Pattern & Z-Pattern (Reading Patterns)
 Users scan content in predictable patterns: F-pattern for text-heavy pages, Z-pattern for minimal pages.
@@ -459,21 +428,3 @@ Users scan content in predictable patterns: F-pattern for text-heavy pages, Z-pa
   * ❌ Important information buried in the middle of dense paragraphs.
   * ✅ Key actions and headings aligned to the left edge on content pages.
   * ✅ CTAs at the terminal points of the Z-pattern on landing pages.
-
----
-
-## Feedback Principle
-Every user action should produce a visible, immediate, and relevant response from the system.
-
-* **Takeaways:**
-  * Acknowledge all user actions within 100ms (visual) and 400ms (meaningful response).
-  * Distinguish between types of feedback: confirmation, progress, error, and informational.
-  * Match feedback intensity to action importance (delete → stronger feedback than hover).
-* **Detection Patterns:**
-  * ❌ Buttons with no hover, active, or focus states.
-  * ❌ Form submission with no loading or success indicator.
-  * ❌ Destructive actions with no confirmation or undo option.
-  * ✅ Hover states on all interactive elements.
-  * ✅ Toast notifications for background operations.
-  * ✅ Inline validation on form fields.
-* **WCAG Cross-ref:** 2.4.7 (Focus Visible), 2.4.11 (Focus Appearance — NEW in 2.2), 4.1.3 (Status Messages).

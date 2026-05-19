@@ -31,7 +31,7 @@ node install.js --help
 
 ### Updating UX Laws
 
-Edit `references/laws.md` to add, modify, or refine law definitions. Each law should include:
+Edit `references/laws-extended.md` or `references/laws-quick.md` to add, modify, or refine law definitions. Each law should include:
 - Name and description
 - Key takeaway for designers
 - Detection patterns or signals
@@ -77,7 +77,7 @@ node install.js --path ./test-install
 
 2. Verify files were copied:
 ```bash
-ls -la ./test-install/ux-laws-reviewer/
+ls -la ./test-install/
 ```
 
 3. Clean up:

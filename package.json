@@ -1,12 +1,15 @@
 {
   "name": "ux-laws-reviewer",
-  "version": "2.1.0",
-  "description": "An AI agent skill for reviewing UIs against 25+ psychological UX laws, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics — with quantitative 0-100 scoring.",
+  "version": "3.0.0",
+  "description": "An AI agent skill for reviewing UIs against 25+ psychological UX laws, WCAG 2.2 accessibility criteria, and Nielsen's 10 usability heuristics — with quantitative 0-100 scoring and self-evolution.",
   "bin": {
     "ux-laws-reviewer": "install.js"
   },
   "scripts": {
-    "test": "node install.js --help"
+    "test": "node --test tests/*.test.js",
+    "check-refs": "node evals/eval_runner.js --check",
+    "generate-manifest": "node scripts/generate-manifest.js",
+    "verify-manifest": "node scripts/generate-manifest.js --verify"
   },
   "keywords": [
     "claude-code",
@@ -51,10 +54,13 @@
     "SKILL.md",
     "references/",
     "evals/",
+    "tests/wcag-criteria.js",
+    "scripts/",
+    "CONTRIBUTING-MACHINE.md",
     "README.md",
     "LICENSE"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }

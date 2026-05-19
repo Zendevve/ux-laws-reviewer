@@ -1,0 +1,83 @@
+<!-- WCAG-compliant form for eval testing -->
+<!-- Tests that the skill recognizes accessible patterns as strengths -->
+<form id="profile-form" aria-label="Edit profile" novalidate>
+  <fieldset>
+    <legend>Personal Information</legend>
+
+    <div class="field">
+      <label for="full-name">Full Name <span aria-hidden="true">*</span></label>
+      <input id="full-name" type="text" required aria-required="true"
+             autocomplete="name" aria-describedby="name-hint">
+      <span id="name-hint" class="hint">As it appears on your ID</span>
+    </div>
+
+    <div class="field">
+      <label for="email">Email Address <span aria-hidden="true">*</span></label>
+      <input id="email" type="email" required aria-required="true"
+             autocomplete="email" aria-describedby="email-error"
+             aria-invalid="false">
+      <span id="email-error" class="error" role="alert" hidden>
+        Please enter a valid email address (e.g., you@example.com)
+      </span>
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone Number</label>
+      <input id="phone" type="tel" autocomplete="tel"
+             aria-describedby="phone-hint"
+             placeholder="(555) 123-4567">
+      <span id="phone-hint" class="hint">Any format accepted — we'll normalize it</span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Preferences</legend>
+
+    <div class="field">
+      <label for="timezone">Timezone</label>
+      <select id="timezone" autocomplete="timezone">
+        <option value="" disabled selected>Select your timezone</option>
+        <optgroup label="Americas">
+          <option value="EST">Eastern (UTC-5)</option>
+          <option value="CST">Central (UTC-6)</option>
+          <option value="PST">Pacific (UTC-8)</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="GMT">London (UTC+0)</option>
+          <option value="CET">Berlin (UTC+1)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="field">
+      <fieldset>
+        <legend>Notification Preferences</legend>
+        <label class="checkbox">
+          <input type="checkbox" name="notifications" value="email" checked>
+          Email notifications
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="notifications" value="sms">
+          SMS notifications
+        </label>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <button type="submit" class="btn-primary"
+            style="padding: 12px 24px; min-height: 48px; min-width: 120px;
+                   font-size: 1rem; border: none; border-radius: 6px;
+                   background: #2563eb; color: #fff; cursor: pointer;">
+      Save Changes
+    </button>
+    <button type="button" class="btn-secondary"
+            style="padding: 12px 24px; min-height: 48px;
+                   font-size: 1rem; border: 1px solid #d1d5db; border-radius: 6px;
+                   background: #fff; color: #374151; cursor: pointer;">
+      Cancel
+    </button>
+  </div>
+
+  <div role="status" aria-live="polite" id="form-status"></div>
+</form>

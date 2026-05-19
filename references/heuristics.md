@@ -2,6 +2,9 @@
 
 A mapping of Jakob Nielsen's 10 Usability Heuristics to the UX laws and WCAG criteria used in this skill's review framework. This bridges academic UX law analysis with industry-standard heuristic evaluation methodology.
 
+*Source: Nielsen Norman Group, "10 Usability Heuristics for User Interface Design" (Last verified: 2024)*
+*URL: https://www.nngroup.com/articles/ten-usability-heuristics/*
+
 > **When to load:** This file is loaded only in **Deep** review mode. It supplements (not replaces) the law-by-law analysis with a higher-level heuristic perspective.
 
 ---

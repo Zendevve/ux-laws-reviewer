@@ -15,7 +15,7 @@ cd ux-laws-reviewer
 
 #### Add or Refine UX Laws
 
-- Edit `references/laws.md`
+- Edit `references/laws-quick.md` (top 8 laws) or `references/laws-extended.md` (remaining laws)
 - Include: law name, description, key takeaway, and detection patterns
 - Cite credible sources (academic papers, established UX literature)
 
@@ -59,6 +59,16 @@ node install.js --help
 node install.js --path ./test-install
 ```
 
+4. Run the full test suite:
+```bash
+npm test
+```
+
+This runs:
+- `tests/install.test.js` — Installer logic verification
+- `tests/references.test.js` — WCAG accuracy, law uniqueness, scoring structure
+- `tests/output-schema.test.js` — Output format validation
+
 ### 4. Submit a Pull Request
 
 1. Create a feature branch
@@ -101,4 +111,4 @@ Found a bug or have a suggestion? [Open an issue](https://github.com/Zendevve/ux
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the ISC license.
+By contributing, you agree that your contributions will be licensed under the AGPL-3.0 license.

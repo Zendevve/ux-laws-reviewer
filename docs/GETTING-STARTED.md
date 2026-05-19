@@ -81,4 +81,4 @@ Override auto-detection by explicitly requesting a mode: *"Do a deep review of t
 
 - Read the [full documentation](../README.md) for all covered laws and accessibility criteria
 - See [CONTRIBUTING.md](../CONTRIBUTING.md) to contribute new laws or improvements
-- Run evaluations: `node evals/eval_queries.json`
+- Run evaluations and integrity checks: `node evals/eval_runner.js --check`

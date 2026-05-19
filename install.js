@@ -18,13 +18,16 @@ const TARGETS = [
 
 const FILES_TO_COPY = [
   'SKILL.md',
-  path.join('references', 'laws.md'),
+  path.join('references', 'laws-quick.md'),
+  path.join('references', 'laws-extended.md'),
   path.join('references', 'scoring.md'),
   path.join('references', 'accessibility.md'),
   path.join('references', 'heuristics.md'),
   path.join('references', 'examples.md'),
   path.join('references', 'components.md'),
   path.join('references', 'frameworks.md'),
+  path.join('references', 'principles-core.md'),
+  path.join('references', 'evolution.md'),
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────
@@ -63,6 +66,9 @@ function printHelp() {
   log(`  --path <dir>     Install to a custom directory`);
   log(`  --all            Install to ALL detected agent directories`);
   log(`  --uninstall      Remove the skill from detected directories`);
+  log(`  --verify         Verify an existing installation's integrity`);
+  log(`  --dry-run        Show what would be installed without writing`);
+  log(`  --update         Smart update: only overwrite changed files`);
   log('');
   log(`${BOLD}What it does:${RESET}`);
   log(`  Installs the ${SKILL_NAME} skill into your agent's skills`);
@@ -158,6 +164,42 @@ function copyFiles(targetDir) {
   return { copied, skipped };
 }
 
+function getInstalledVersion(targetDir) {
+  const skillPath = path.join(targetDir, 'SKILL.md');
+  if (!fs.existsSync(skillPath)) return null;
+  const content = fs.readFileSync(skillPath, 'utf8');
+  const match = content.match(/version:\s*["']?(\d+\.\d+\.\d+)["']?/);
+  return match ? match[1] : null;
+}
+
+function verifyInstallation(targetDir) {
+  let passed = 0;
+  let failed = 0;
+  const version = getInstalledVersion(targetDir);
+  
+  if (version) {
+    info(`Installed version: ${version}`);
+  }
+
+  for (const relPath of FILES_TO_COPY) {
+    const dest = path.join(targetDir, relPath);
+    if (fs.existsSync(dest)) {
+      passed++;
+    } else {
+      error(`Missing: ${relPath}`);
+      failed++;
+    }
+  }
+
+  if (failed === 0) {
+    success(`All ${passed} file(s) present`);
+  } else {
+    warn(`${passed} present, ${failed} missing`);
+  }
+
+  return { passed, failed, version };
+}
+
 function removeFiles(targetDir) {
   let removed = 0;
 
@@ -190,17 +232,21 @@ function removeFiles(targetDir) {
   return removed;
 }
 
-function installToTargets(targets, options) {
+function installToTargets(targets, options, mockLog = false) {
   let totalCopied = 0;
   let totalSkipped = 0;
 
   for (const { dir, label } of targets) {
-    log(`${CYAN}  Target:${RESET} ${label}`);
-    log(`${DIM}  ${dir}${RESET}`);
+    if (!mockLog) {
+      log(`${CYAN}  Target:${RESET} ${label}`);
+      log(`${DIM}  ${dir}${RESET}`);
+    }
 
     if (isAlreadyInstalled(dir) && !options.force) {
-      warn(`Already installed. Use --force to overwrite.`);
-      log('');
+      if (!mockLog) {
+        warn(`Already installed. Use --force to overwrite.`);
+        log('');
+      }
       continue;
     }
 
@@ -208,79 +254,83 @@ function installToTargets(targets, options) {
     totalCopied += copied;
     totalSkipped += skipped;
 
-    if (copied > 0) {
-      success(`Installed ${copied} file(s)`);
+    if (!mockLog) {
+      if (copied > 0) success(`Installed ${copied} file(s)`);
+      if (skipped > 0) warn(`${skipped} file(s) skipped`);
+      log('');
     }
-    if (skipped > 0) {
-      warn(`${skipped} file(s) skipped`);
-    }
-    log('');
   }
 
   return { totalCopied, totalSkipped };
 }
 
-function install(options = {}) {
-  printBanner();
+function install(options = {}, mockLog = false) {
+  if (!mockLog) printBanner();
 
   const targets = options.all
     ? resolveAllTargetDirs()
     : resolveTargetDir(options.customPath);
 
-  if (options.all) {
+  if (options.all && !mockLog) {
     info(`Installing to ${MAGENTA}${BOLD}all${RESET} detected agent directories`);
     log('');
   }
 
-  const { totalCopied } = installToTargets(targets, options);
+  const { totalCopied, totalSkipped } = installToTargets(targets, options, mockLog);
 
   if (totalCopied === 0) {
-    warn('No new files were installed.');
-    log(`${DIM}  Use --force to overwrite existing installations.${RESET}`);
-    log('');
-    process.exit(0);
+    if (!mockLog) warn('No new files were installed.');
+    if (!mockLog) log(`${DIM}  Use --force to overwrite existing installations.${RESET}\n`);
+    return { success: true, copied: 0, skipped: totalSkipped, targets };
   }
 
-  log(`${DIM}  Now ask your agent:${RESET}`);
-  log(`${BOLD}  "Review this component against UX laws"${RESET}`);
-  log(`${BOLD}  "Do a deep accessibility review of my dashboard"${RESET}`);
-  log(`${BOLD}  "Quick audit of this button component"${RESET}`);
-  log('');
+  if (!mockLog) {
+    log(`${DIM}  Now ask your agent:${RESET}`);
+    log(`${BOLD}  "Review this component against UX laws"${RESET}`);
+    log(`${BOLD}  "Do a deep accessibility review of my dashboard"${RESET}`);
+    log(`${BOLD}  "Quick audit of this button component"${RESET}`);
+    log('');
+  }
+  return { success: true, copied: totalCopied, skipped: totalSkipped, targets };
 }
 
-function uninstall() {
-  printBanner();
+function uninstall(mockLog = false) {
+  if (!mockLog) printBanner();
 
   const detected = detectAgentDirs();
   const installed = detected.filter(d => isAlreadyInstalled(d.dir));
 
   if (installed.length === 0) {
-    warn('No installations found to remove.');
-    log('');
-    process.exit(0);
+    if (!mockLog) warn('No installations found to remove.\n');
+    return { success: true, removed: 0 };
   }
 
   let totalRemoved = 0;
 
   for (const { dir, label } of installed) {
-    log(`${CYAN}  Removing from:${RESET} ${label}`);
-    log(`${DIM}  ${dir}${RESET}`);
+    if (!mockLog) {
+      log(`${CYAN}  Removing from:${RESET} ${label}`);
+      log(`${DIM}  ${dir}${RESET}`);
+    }
 
     const removed = removeFiles(dir);
     totalRemoved += removed;
-    success(`Removed ${removed} file(s)`);
-    log('');
+    if (!mockLog) {
+      success(`Removed ${removed} file(s)`);
+      log('');
+    }
   }
 
-  success(`Uninstalled from ${installed.length} location(s)`);
-  log('');
+  if (!mockLog) success(`Uninstalled from ${installed.length} location(s)\n`);
+  return { success: true, removed: totalRemoved };
 }
 
 // ─── CLI Argument Parsing ────────────────────────────────────────────
 function main() {
   const args = process.argv.slice(2);
-  const options = { force: false, customPath: null, all: false };
+  const options = { force: false, customPath: null, all: false, dryRun: false, update: false };
   let doUninstall = false;
+  let doVerify = false;
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -309,6 +359,19 @@ function main() {
         doUninstall = true;
         break;
 
+      case '--verify':
+        doVerify = true;
+        break;
+
+      case '--dry-run':
+        options.dryRun = true;
+        break;
+
+      case '--update':
+        options.update = true;
+        options.force = true; // update implies overwrite
+        break;
+
       case '--path':
         if (!args[i + 1]) {
           error('--path requires a directory argument');
@@ -327,6 +390,19 @@ function main() {
   try {
     if (doUninstall) {
       uninstall();
+    } else if (doVerify) {
+      printBanner();
+      const targets = options.all
+        ? resolveAllTargetDirs()
+        : resolveTargetDir(options.customPath);
+      for (const { dir, label } of targets) {
+        if (isAlreadyInstalled(dir)) {
+          log(`${CYAN}  Verifying:${RESET} ${label}`);
+          log(`${DIM}  ${dir}${RESET}`);
+          verifyInstallation(dir);
+          log('');
+        }
+      }
     } else {
       install(options);
     }
@@ -336,4 +412,18 @@ function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  detectAgentDirs,
+  resolveTargetDir,
+  resolveAllTargetDirs,
+  isAlreadyInstalled,
+  copyFiles,
+  removeFiles,
+  installToTargets,
+  install,
+  uninstall
+};

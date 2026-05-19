@@ -1,0 +1,108 @@
+{
+  "name": "ux-laws-reviewer",
+  "version": "3.0.0",
+  "schema": "manifest-v1",
+  "generated": "2026-05-19T04:36:08.833Z",
+  "files": {
+    "SKILL.md": {
+      "sha256": "ea69e26c06ad8e5591cded90a79888367ab36b9594a1fb0e4f0f47018cec9d95",
+      "role": "entry",
+      "size": 19174
+    },
+    "references/principles-core.md": {
+      "sha256": "5cd15d7a19a0ed9a0f83ded5b8fd8c9122cd4e75164a9586c26297fee0071264",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 4426
+    },
+    "references/laws-quick.md": {
+      "sha256": "e88df1662032505b946087f5081fe3bb81b2ed063de481e1e57b6226bd4f0595",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 5774
+    },
+    "references/laws-extended.md": {
+      "sha256": "4cd8652cdae133d0054f902c9e69aeb3db5b99591dbeef0b7af04de98b7dd563",
+      "role": "reference",
+      "modes": [
+        "standard",
+        "deep"
+      ],
+      "size": 17753
+    },
+    "references/scoring.md": {
+      "sha256": "8b6fa8748445d98b64f774e728cee463757127a2a98e798806eb7240ea7f3e6b",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 10720
+    },
+    "references/accessibility.md": {
+      "sha256": "6059731bf826cae8784dc0eba94fbd7f115547f2afa3f2ac668bcb4fbcfd87fe",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 10672
+    },
+    "references/heuristics.md": {
+      "sha256": "18ee5f0b074a597064f7fd338fd635a4295825d10d80ba9f8a33ecb0205cb527",
+      "role": "reference",
+      "modes": [
+        "deep"
+      ],
+      "size": 11356
+    },
+    "references/examples.md": {
+      "sha256": "f195c8d60e6f55a02a14ebdbfb449fae1c79bc7920fb0480ad152a2a9c3e22df",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 10443
+    },
+    "references/components.md": {
+      "sha256": "bf712d48b57e7cb8c6899b00d9885d6c6b76ad307397d735457024c275ccc5d7",
+      "role": "reference",
+      "modes": [
+        "quick",
+        "standard",
+        "deep"
+      ],
+      "size": 8264
+    },
+    "references/frameworks.md": {
+      "sha256": "1d390c614156e44df2cae29695215e037c782f17692283c15b2d4661332a2f77",
+      "role": "reference",
+      "modes": [
+        "standard",
+        "deep"
+      ],
+      "size": 7970
+    },
+    "references/evolution.md": {
+      "sha256": "02e5efebc33ec5c2fffe043c66a091a4e44e002dad3b06bbbf1b2a9a20851f33",
+      "role": "reference",
+      "modes": [
+        "standard",
+        "deep"
+      ],
+      "size": 3108
+    }
+  }
+}

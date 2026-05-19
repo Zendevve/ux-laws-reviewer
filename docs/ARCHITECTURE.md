@@ -10,22 +10,34 @@ The project follows a **skill package** architecture:
 
 ```
 ux-laws-reviewer/
-├── SKILL.md                    # Core agent instructions (entry point)
+├── SKILL.md                    # Core agent instructions (entry point, schema: skill-v3)
 ├── references/                 # Knowledge base for the AI agent
-│   ├── laws.md                 # UX law definitions and detection patterns
-│   ├── scoring.md              # Scoring rubric and calibration anchors
-│   ├── accessibility.md        # WCAG 2.2 criteria mapping
-│   ├── heuristics.md           # Nielsen's 10 heuristics
-│   ├── examples.md             # Example audit outputs
-│   └── components.md           # UI-type-specific checklists
-│   └── frameworks.md           # Framework-specific anti-patterns
+│   ├── principles-core.md      # Platform-agnostic audit principles (loaded first)
+│   ├── laws-quick.md           # Top 8 UX laws for Quick mode
+│   ├── laws-extended.md        # Remaining 17+ UX laws for Standard/Deep
+│   ├── scoring.md              # 0-100 scoring rubric and calibration anchors
+│   ├── accessibility.md        # WCAG 2.2 criteria mapped to laws
+│   ├── heuristics.md           # Nielsen's 10 heuristics (Deep mode)
+│   ├── examples.md             # Annotated example audit outputs
+│   ├── components.md           # UI-type-specific checklists
+│   ├── frameworks.md           # Framework-specific anti-patterns
+│   └── evolution.md            # Self-evolution proposal protocol
 ├── install.js                  # CLI installer (npx entry point)
 ├── package.json                # Package metadata and distribution
+├── scripts/
+│   ├── generate-manifest.js    # SHA-256 manifest generator/verifier
+│   └── collect-proposals.js    # Self-evolution proposal collector
+├── tests/
+│   ├── install.test.js         # Installer logic tests
+│   ├── references.test.js      # Reference integrity validation
+│   ├── output-schema.test.js   # Output format validation
+│   └── wcag-criteria.js        # Canonical WCAG 2.2 criteria list
 ├── evals/                      # Evaluation test suite
-│   ├── evals.json              # Evaluation queries
-│   ├── eval_queries.json       # Additional eval queries
-│   └── files/                  # Test fixtures
-│       └── bad-login.jsx       # Sample component for testing
+│   ├── evals.json              # Evaluation definitions
+│   ├── eval_queries.json       # Trigger/non-trigger queries
+│   ├── eval_runner.js          # Output validator with WCAG checking
+│   └── files/                  # Test fixtures (good + bad UIs)
+├── CONTRIBUTING-MACHINE.md     # AI agent contribution guide
 └── README.md                   # User-facing documentation
 ```
 
@@ -74,8 +86,20 @@ Scoring rules and calibration anchors are defined in `references/scoring.md`.
 
 ## Extension Points
 
-- Add new UX laws to `references/laws.md`
+- Add new UX laws to `references/laws-extended.md` (or `laws-quick.md` for top 8)
 - Update WCAG criteria in `references/accessibility.md`
 - Modify scoring rubric in `references/scoring.md`
 - Add UI-type checklists to `references/components.md`
 - Add framework anti-patterns to `references/frameworks.md`
+- Contribute via the self-evolution protocol in `references/evolution.md`
+
+## Self-Evolution Flow
+
+1. Agent performs a UX review (Steps 1-6)
+2. Agent encounters an uncovered pattern
+3. Agent appends a `<!-- PROPOSED-* -->` block (Step 7)
+4. Maintainer runs `node scripts/collect-proposals.js <dir>` to extract proposals
+5. Proposals are reviewed and merged into the appropriate reference file
+6. Reference file `last-verified` date and version are updated
+7. `node scripts/generate-manifest.js` regenerates checksums
+8. Users update via `npx ux-laws-reviewer --update`
